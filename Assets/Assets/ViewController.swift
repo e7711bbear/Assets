@@ -10,6 +10,10 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+	@IBOutlet var projectURLField: NSTextField!
+	@IBOutlet var assetsTableView: NSTableView!
+	@IBOutlet var assetsStatusField: NSTextField!
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 

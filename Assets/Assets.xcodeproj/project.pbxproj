@@ -14,6 +14,7 @@
 		89B8ACDF1D55A68D001D4144 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89B8ACDD1D55A68D001D4144 /* Main.storyboard */; };
 		89B8ACEA1D55A68D001D4144 /* AssetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8ACE91D55A68D001D4144 /* AssetsTests.swift */; };
 		89B8ACF51D55A68D001D4144 /* AssetsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8ACF41D55A68D001D4144 /* AssetsUITests.swift */; };
+		89C5F8151D58433E00C3FBC1 /* AssetCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C5F8141D58433E00C3FBC1 /* AssetCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		89B8ACF01D55A68D001D4144 /* AssetsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AssetsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B8ACF41D55A68D001D4144 /* AssetsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsUITests.swift; sourceTree = "<group>"; };
 		89B8ACF61D55A68D001D4144 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89C5F8141D58433E00C3FBC1 /* AssetCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				89B8ACDB1D55A68D001D4144 /* Assets.xcassets */,
 				89B8ACDD1D55A68D001D4144 /* Main.storyboard */,
 				89B8ACE01D55A68D001D4144 /* Info.plist */,
+				89C5F8141D58433E00C3FBC1 /* AssetCellView.swift */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89B8ACD81D55A68D001D4144 /* ViewController.swift in Sources */,
+				89C5F8151D58433E00C3FBC1 /* AssetCellView.swift in Sources */,
 				89B8ACD61D55A68D001D4144 /* AppDelegate.swift in Sources */,
 				89B8ACDA1D55A68D001D4144 /* Document.swift in Sources */,
 			);
@@ -479,6 +483,7 @@
 				89B8ACFB1D55A68D001D4144 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		89B8ACFC1D55A68D001D4144 /* Build configuration list for PBXNativeTarget "AssetsTests" */ = {
 			isa = XCConfigurationList;
@@ -487,6 +492,7 @@
 				89B8ACFE1D55A68D001D4144 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		89B8ACFF1D55A68D001D4144 /* Build configuration list for PBXNativeTarget "AssetsUITests" */ = {
 			isa = XCConfigurationList;
@@ -495,6 +501,7 @@
 				89B8AD011D55A68D001D4144 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
