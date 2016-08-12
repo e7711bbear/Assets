@@ -11,8 +11,11 @@ import Cocoa
 class ViewController: NSViewController {
 
 	@IBOutlet var projectURLField: NSTextField!
+	@IBOutlet var chooseProjectURLButton: NSButton!
+	@IBOutlet var designerURLField: NSTextField!
 	@IBOutlet var assetsTableView: NSTableView!
 	@IBOutlet var assetsStatusField: NSTextField!
+	@IBOutlet var publishButton: NSButton!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -26,6 +29,15 @@ class ViewController: NSViewController {
 		}
 	}
 
+	@IBAction func chooseProjectURL(_ sender: AnyObject) {
+	}
 
+	
+	@IBAction func chooseDesignerURL(_ sender: AnyObject) {
+	}
+	
+	@IBAction func publish(_ sender: AnyObject) {
+	}
+	
 }
 
