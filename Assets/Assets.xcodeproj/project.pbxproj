@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		89780CF71D5E3B1400FD95C0 /* ImagePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89780CF61D5E3B1400FD95C0 /* ImagePair.swift */; };
+		89780CF91D5E622300FD95C0 /* ImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89780CF81D5E622300FD95C0 /* ImageFile.swift */; };
 		89B8ACD61D55A68D001D4144 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8ACD51D55A68D001D4144 /* AppDelegate.swift */; };
 		89B8ACD81D55A68D001D4144 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8ACD71D55A68D001D4144 /* ViewController.swift */; };
 		89B8ACDA1D55A68D001D4144 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8ACD91D55A68D001D4144 /* Document.swift */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		89780CF61D5E3B1400FD95C0 /* ImagePair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePair.swift; sourceTree = "<group>"; };
+		89780CF81D5E622300FD95C0 /* ImageFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFile.swift; sourceTree = "<group>"; };
 		89B8ACD21D55A68D001D4144 /* Assets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B8ACD51D55A68D001D4144 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		89B8ACD71D55A68D001D4144 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -101,11 +105,13 @@
 			children = (
 				89B8ACD51D55A68D001D4144 /* AppDelegate.swift */,
 				89B8ACD71D55A68D001D4144 /* ViewController.swift */,
+				89C5F8141D58433E00C3FBC1 /* AssetCellView.swift */,
 				89B8ACD91D55A68D001D4144 /* Document.swift */,
+				89780CF61D5E3B1400FD95C0 /* ImagePair.swift */,
+				89780CF81D5E622300FD95C0 /* ImageFile.swift */,
 				89B8ACDB1D55A68D001D4144 /* Assets.xcassets */,
 				89B8ACDD1D55A68D001D4144 /* Main.storyboard */,
 				89B8ACE01D55A68D001D4144 /* Info.plist */,
-				89C5F8141D58433E00C3FBC1 /* AssetCellView.swift */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -138,6 +144,7 @@
 				89B8ACCE1D55A68D001D4144 /* Sources */,
 				89B8ACCF1D55A68D001D4144 /* Frameworks */,
 				89B8ACD01D55A68D001D4144 /* Resources */,
+				89780CFA1D5EFD2400FD95C0 /* Additional Warnings */,
 			);
 			buildRules = (
 			);
@@ -256,6 +263,23 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		89780CFA1D5EFD2400FD95C0 /* Additional Warnings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Additional Warnings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "KEYWORDS=\"TODO:|FIXME:|\\?\\?\\?:|\\!\\!\\!:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		89B8ACCE1D55A68D001D4144 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -264,6 +288,8 @@
 				89B8ACD81D55A68D001D4144 /* ViewController.swift in Sources */,
 				89C5F8151D58433E00C3FBC1 /* AssetCellView.swift in Sources */,
 				89B8ACD61D55A68D001D4144 /* AppDelegate.swift in Sources */,
+				89780CF91D5E622300FD95C0 /* ImageFile.swift in Sources */,
+				89780CF71D5E3B1400FD95C0 /* ImagePair.swift in Sources */,
 				89B8ACDA1D55A68D001D4144 /* Document.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

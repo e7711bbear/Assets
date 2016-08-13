@@ -10,6 +10,10 @@ import Cocoa
 
 class Document: NSDocument {
 
+	var projectDirectoryURL: NSURL!
+	var designerDirectoryURL: NSURL!
+	var imagesList = [ImagePair]()
+	
 	override init() {
 	    super.init()
 		// Add your subclass-specific initialization here.
@@ -23,7 +27,11 @@ class Document: NSDocument {
 		// Returns the Storyboard that contains your Document window.
 		let storyboard = NSStoryboard(name: "Main", bundle: nil)
 		let windowController = storyboard.instantiateController(withIdentifier: "Document Window Controller") as! NSWindowController
+		
 		self.addWindowController(windowController)
+		
+		let viewController = windowController.contentViewController as! ViewController
+		viewController.representedObject = self
 	}
 
 	override func data(ofType typeName: String) throws -> Data {
