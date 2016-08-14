@@ -12,7 +12,7 @@ class Document: NSDocument {
 
 	var projectDirectoryURL: NSURL!
 	var designerDirectoryURL: NSURL!
-	var imagesList = [ImagePair]()
+	var assetsList = [AssetsPair]()
 	
 	override init() {
 	    super.init()
@@ -47,6 +47,17 @@ class Document: NSDocument {
 		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 	}
 
-
+	// MARK: - Data 
+	
+	func addAssetPair(_ assetPair: AssetsPair) {
+		// TODO: Thread safety here
+		self.assetsList.append(assetPair)
+	}
+	
+	func resetAllData() {
+		self.projectDirectoryURL = nil
+		self.designerDirectoryURL = nil
+		self.assetsList.removeAll()
+	}
 }
 

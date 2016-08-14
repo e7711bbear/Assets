@@ -10,7 +10,7 @@ import Cocoa
 
 class ImageFile: NSObject {
 	var fileName: String!
-	var fullPath : String!
+	var url: NSURL!
 	var image: NSImage!
 
 }

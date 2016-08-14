@@ -9,7 +9,7 @@
 import Cocoa
 
 class ViewController: NSViewController {
-
+	
 	@IBOutlet var projectURLField: NSTextField!
 	@IBOutlet var chooseProjectURLButton: NSButton!
 	@IBOutlet var designerURLField: NSTextField!
@@ -19,19 +19,26 @@ class ViewController: NSViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
+		
 		// Do any additional setup after loading the view.
+		self.assetsStatusField.stringValue = ""
 	}
-
+	
 	override var representedObject: AnyObject? {
 		didSet {
-		// Update the view, if already loaded.
+			// Update the view, if already loaded.
+		}
+	}
+	
+	var document: Document {
+		get {
+			return representedObject as! Document
 		}
 	}
 	
 	@IBAction func chooseProjectURL(_ sender: AnyObject) {
 		let openPanel = NSOpenPanel()
-
+		
 		openPanel.canChooseDirectories = true
 		openPanel.canChooseFiles = false
 		openPanel.allowsMultipleSelection = false
@@ -53,20 +60,25 @@ class ViewController: NSViewController {
 				
 				// clear model here.
 				// assign root directory value
+				self.document.projectDirectoryURL = rootDirectory
+				
 				// trigger parsing of path.
-
+				self.findAllAssets(inside: rootDirectory.path)
+				
 				// Update assets status Field
-				let assetCount = 123
-				self.assetsStatusField.stringValue = "\(assetCount) assets."
+				let assetCount = self.document.assetsList.count
+				self.assetsStatusField.stringValue = "\(assetCount) assets"
 				
-				let notification = NSUserNotification()
-				notification.title = NSLocalizedString("Parsing Finished", comment: "NSUserNotification title")
-				notification.informativeText = NSLocalizedString("\(assetCount) assets were found.", comment: "NSUserNotification informativeText")
-				notification.soundName = NSUserNotificationDefaultSoundName
-				
-				NSUserNotificationCenter.default.deliver(notification)
+				DispatchQueue.main.async {
+					let notification = NSUserNotification()
+					notification.title = NSLocalizedString("Parsing Finished", comment: "NSUserNotification title")
+					notification.informativeText = NSLocalizedString("\(assetCount) assets were found", comment: "NSUserNotification informativeText")
+					notification.soundName = NSUserNotificationDefaultSoundName
+					
+					NSUserNotificationCenter.default.deliver(notification)
+				}
 			}
-		})
+			})
 	}
 	
 	
@@ -79,6 +91,65 @@ class ViewController: NSViewController {
 	}
 	
 	@IBAction func publish(_ sender: AnyObject) {
+	}
+	
+	
+	func findAllAssets(inside startingPath: String) -> Void {
+		
+		let fileManager = FileManager.default
+		
+		do {
+			let content = try fileManager.contentsOfDirectory(atPath: startingPath)
+			
+			for elementName in content {
+				let startingPathNSString = startingPath as NSString
+				let elementPath = startingPathNSString.appendingPathComponent(elementName)
+				
+				var isDirectory: ObjCBool = ObjCBool(false)
+				let fileExists = fileManager.fileExists(atPath: elementPath, isDirectory: &isDirectory)
+				
+				if fileExists && isDirectory.boolValue == true { // -- These are folder, we need to dive in eventually.
+					// Skipping directories which can't be opened.
+					if fileManager.isExecutableFile(atPath: elementPath) == false {
+						continue;
+					}
+					
+					// Skipping hidden folders
+					let hiddenFolderRange = elementName.range(of: ".")
+					if hiddenFolderRange?.isEmpty == false &&
+						hiddenFolderRange?.lowerBound == elementName.startIndex {
+						
+					}
+					
+					// We open the folder and continue processing
+					self.findAllAssets(inside: elementPath)
+				} else { // -- These are files, we need to add if valid assets.
+					let elementNSString = elementName as NSString
+					let UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, elementNSString.pathExtension, nil)?.takeRetainedValue()
+					
+					guard UTI != nil else {
+						NSLog("Failed to create UTI for \(elementPath)")
+						continue
+					}
+					
+					if UTTypeConformsTo(UTI!, kUTTypeImage) {
+						let newAssetsPair = AssetsPair()
+						let newProjectImage = ImageFile()
+						
+						newProjectImage.url = NSURL(fileURLWithPath: elementPath)
+						newAssetsPair.projectImageFile = newProjectImage
+						
+						self.document.addAssetPair(newAssetsPair)
+					}
+					//DispatchQueue.main.async {
+					//	self.assetsTableView.reloadData()
+					//}
+				}
+			}
+			
+		} catch {
+			NSLog("Error during reading content of path \(startingPath): \(error)")
+		}
 	}
 	
 }

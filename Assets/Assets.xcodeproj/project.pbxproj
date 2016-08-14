@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		89780CF71D5E3B1400FD95C0 /* ImagePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89780CF61D5E3B1400FD95C0 /* ImagePair.swift */; };
+		89780CF71D5E3B1400FD95C0 /* AssetsPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89780CF61D5E3B1400FD95C0 /* AssetsPair.swift */; };
 		89780CF91D5E622300FD95C0 /* ImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89780CF81D5E622300FD95C0 /* ImageFile.swift */; };
 		89B8ACD61D55A68D001D4144 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8ACD51D55A68D001D4144 /* AppDelegate.swift */; };
 		89B8ACD81D55A68D001D4144 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8ACD71D55A68D001D4144 /* ViewController.swift */; };
@@ -37,7 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		89780CF61D5E3B1400FD95C0 /* ImagePair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePair.swift; sourceTree = "<group>"; };
+		89780CF61D5E3B1400FD95C0 /* AssetsPair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetsPair.swift; sourceTree = "<group>"; };
 		89780CF81D5E622300FD95C0 /* ImageFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFile.swift; sourceTree = "<group>"; };
 		89B8ACD21D55A68D001D4144 /* Assets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B8ACD51D55A68D001D4144 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 				89B8ACD71D55A68D001D4144 /* ViewController.swift */,
 				89C5F8141D58433E00C3FBC1 /* AssetCellView.swift */,
 				89B8ACD91D55A68D001D4144 /* Document.swift */,
-				89780CF61D5E3B1400FD95C0 /* ImagePair.swift */,
+				89780CF61D5E3B1400FD95C0 /* AssetsPair.swift */,
 				89780CF81D5E622300FD95C0 /* ImageFile.swift */,
 				89B8ACDB1D55A68D001D4144 /* Assets.xcassets */,
 				89B8ACDD1D55A68D001D4144 /* Main.storyboard */,
@@ -198,7 +198,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Arnaud Thiercelin";
 				TargetAttributes = {
 					89B8ACD11D55A68D001D4144 = {
@@ -289,7 +289,7 @@
 				89C5F8151D58433E00C3FBC1 /* AssetCellView.swift in Sources */,
 				89B8ACD61D55A68D001D4144 /* AppDelegate.swift in Sources */,
 				89780CF91D5E622300FD95C0 /* ImageFile.swift in Sources */,
-				89780CF71D5E3B1400FD95C0 /* ImagePair.swift in Sources */,
+				89780CF71D5E3B1400FD95C0 /* AssetsPair.swift in Sources */,
 				89B8ACDA1D55A68D001D4144 /* Document.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -351,8 +351,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -396,8 +398,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -441,6 +445,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arnaudthiercelin.Assets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -468,6 +473,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arnaudthiercelin.AssetsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Assets.app/Contents/MacOS/Assets";
 			};
@@ -494,6 +500,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arnaudthiercelin.AssetsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Assets;
 			};

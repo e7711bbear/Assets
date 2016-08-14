@@ -1,5 +1,5 @@
 //
-//  ImagePair.swift
+//  AssetsPair.swift
 //  Assets
 //
 //  Created by Arnaud Thiercelin on 8/12/16.
@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ImagePair: NSObject {
+class AssetsPair: NSObject {
 	var projectImageFile: ImageFile!
 	var designerImageFile: ImageFile!
 	
