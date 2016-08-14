@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate{
 	
 	@IBOutlet var projectURLField: NSTextField!
 	@IBOutlet var chooseProjectURLButton: NSButton!
@@ -151,6 +151,65 @@ class ViewController: NSViewController {
 			NSLog("Error during reading content of path \(startingPath): \(error)")
 		}
 	}
+
+	// MARK: - NSTableViewDataSource & NSTableViewDelegate
+
+	func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+		//get the file URLs from the pasteboard
+		let pasteBoard = info.draggingPasteboard()
+		
+		//list the file type UTIs we want to accept
+		let acceptedTypes = [kUTTypeImage]
+		
+		guard let urls = pasteBoard.readObjects(forClasses: [NSURL.self],
+		                                  options: [NSPasteboardURLReadingFileURLsOnlyKey : true,
+		                                            NSPasteboardURLReadingContentsConformToTypesKey : acceptedTypes]) else {
+														NSLog("Error accepting the drop")
+														return []
+		}
 	
+		//only allow drag if there is exactly one file
+		if urls.count != 1 || dropOperation != NSTableViewDropOperation.on {
+			return [] //NSDragOperationNone in Swift 3.0
+		}
+		
+		return NSDragOperation.copy
+		
+	}
+	
+	
+	func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+	//get the file URLs from the pasteboard
+		let pasteBoard = info.draggingPasteboard()
+		
+		//list the file type UTIs we want to accept
+		let acceptedTypes = [kUTTypeImage]
+		
+		guard let urls = pasteBoard.readObjects(forClasses: [NSURL.self],
+		                                  options: [NSPasteboardURLReadingFileURLsOnlyKey : true,
+		                                            NSPasteboardURLReadingContentsConformToTypesKey : acceptedTypes]) else {
+														NSLog("Error accepting the drop")
+														return false
+		}
+		
+		//only allow drag if there is exactly one file
+		if urls.count != 1 || dropOperation != NSTableViewDropOperation.on {
+			return false
+		}
+
+		let draggedFileURL = urls[0]
+		let imagePair = self.document.assetsList[row]
+
+		// TODO: here
+		// create new image as designer image with draggedFileURL
+		// Set in imagePair
+
+		DispatchQueue.main.async {
+			self.assetsTableView.reloadData()
+		}
+	
+		return true
+	}
+
 }
 
