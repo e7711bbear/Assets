@@ -9,7 +9,7 @@
 import Cocoa
 
 class AssetsPair: NSObject {
-	var projectImageFile: ImageFile!
-	var designerImageFile: ImageFile!
+	var projectAsset: ImageFile!
+	var designerAsset: ImageFile!
 	
 }

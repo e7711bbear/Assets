@@ -22,6 +22,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 		
 		// Do any additional setup after loading the view.
 		self.assetsStatusField.stringValue = ""
+		self.assetsTableView.delegate = self
+		self.assetsTableView.dataSource = self
 	}
 	
 	override var representedObject: AnyObject? {
@@ -30,9 +32,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 		}
 	}
 	
-	var document: Document {
+	var document: Document! {
 		get {
-			return representedObject as! Document
+			return representedObject as? Document
 		}
 	}
 	
@@ -52,7 +54,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 					return
 				}
 				
-				self.projectURLField.stringValue = rootDirectory.path
+				self.projectURLField.stringValue = rootDirectory.path.replacingOccurrences(of: NSHomeDirectory(), with: "~")
 				guard rootDirectory.startAccessingSecurityScopedResource() == true else {
 					NSLog("Failed to start accessing rootDirectory in Sandbox environment.")
 					return
@@ -68,6 +70,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 				// Update assets status Field
 				let assetCount = self.document.assetsList.count
 				self.assetsStatusField.stringValue = "\(assetCount) assets"
+				self.assetsTableView.reloadData()
 				
 				DispatchQueue.main.async {
 					let notification = NSUserNotification()
@@ -136,8 +139,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 						let newAssetsPair = AssetsPair()
 						let newProjectImage = ImageFile()
 						
-						newProjectImage.url = NSURL(fileURLWithPath: elementPath)
-						newAssetsPair.projectImageFile = newProjectImage
+						newProjectImage.url = URL(fileURLWithPath: elementPath)
+						newAssetsPair.projectAsset = newProjectImage
 						
 						self.document.addAssetPair(newAssetsPair)
 					}
@@ -154,6 +157,34 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
 	// MARK: - NSTableViewDataSource & NSTableViewDelegate
 
+	
+	func numberOfRows(in tableView: NSTableView) -> Int {
+		return self.document != nil ? self.document.assetsList.count : 0
+	}
+	
+	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+		let cellView = tableView.make(withIdentifier: "AssetCellView", owner: self) as! AssetCellView
+		let assetPair = self.document.assetsList[row]
+		
+		let assetFile = tableColumn?.identifier == "project_asset" ? assetPair.projectAsset : assetPair.designerAsset
+		
+		if assetFile != nil {
+			cellView.textField?.stringValue = assetFile!.fileName
+			cellView.assetPathField.stringValue = assetFile!.url.path.replacingOccurrences(of: NSHomeDirectory(), with: "~")
+			cellView.imageView?.image = assetFile!.image
+		} else {
+			cellView.textField?.stringValue = "N/A"
+			cellView.assetPathField.stringValue = "N/A"
+		}
+		return cellView
+	}
+	
+	// MARK: Drag and Drop
+	
+	func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
+		return false
+	}
+	
 	func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
 		//get the file URLs from the pasteboard
 		let pasteBoard = info.draggingPasteboard()
@@ -197,13 +228,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 			return false
 		}
 
-		let draggedFileURL = urls[0]
+		let draggedFileURL = urls[0] as! NSURL
 		let imagePair = self.document.assetsList[row]
+		let newDesignerImage = ImageFile()
+		newDesignerImage.url = draggedFileURL as URL
 
-		// TODO: here
-		// create new image as designer image with draggedFileURL
-		// Set in imagePair
-
+		imagePair.designerAsset = newDesignerImage
+		
 		DispatchQueue.main.async {
 			self.assetsTableView.reloadData()
 		}

@@ -11,9 +11,9 @@ import Cocoa
 class AssetCellView: NSTableCellView {
 
 	// imageView -> image
-	// textField -> imageName
-	@IBOutlet var imagePathField : NSTextField!
-	@IBOutlet var imageSizeField : NSTextField!
+	// textField -> assetName
+	@IBOutlet var assetPathField : NSTextField!
+	@IBOutlet var assetSizeField : NSTextField!
 	
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)

@@ -10,7 +10,14 @@ import Cocoa
 
 class ImageFile: NSObject {
 	var fileName: String!
-	var url: NSURL!
+	var url: URL! {
+		didSet {
+			self.fileName = url.lastPathComponent
+			self.image = NSImage(contentsOf: self.url)
+		}
+	}
+	
+	
 	var image: NSImage!
 
 }

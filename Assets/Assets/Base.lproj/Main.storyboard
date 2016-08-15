@@ -689,7 +689,7 @@
                                             <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="project_icon" width="395.5" minWidth="200" maxWidth="1000" id="Je0-E9-WDn">
+                                                <tableColumn identifier="project_asset" width="395.5" minWidth="200" maxWidth="1000" id="Je0-E9-WDn">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Project Asset">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -703,7 +703,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="project_icon"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="iconCell" id="Lxl-BC-mRc" customClass="AssetCellView" customModule="Assets" customModuleProvider="target">
+                                                        <tableCellView identifier="AssetCellView" id="Lxl-BC-mRc" customClass="AssetCellView" customModule="Assets" customModuleProvider="target">
                                                             <rect key="frame" x="1" y="1" width="395" height="40"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -763,15 +763,15 @@
                                                                 <constraint firstItem="uL1-W8-fs5" firstAttribute="leading" secondItem="jT0-Qc-a22" secondAttribute="trailing" constant="8" symbolic="YES" id="sDB-VO-lMl"/>
                                                             </constraints>
                                                             <connections>
-                                                                <outlet property="imagePathField" destination="otJ-zj-fIo" id="Wn0-hE-Bax"/>
-                                                                <outlet property="imageSizeField" destination="WIR-sa-iT3" id="h4R-NE-Dsj"/>
+                                                                <outlet property="assetPathField" destination="otJ-zj-fIo" id="kbw-5y-b9y"/>
+                                                                <outlet property="assetSizeField" destination="WIR-sa-iT3" id="ml9-YT-4lF"/>
                                                                 <outlet property="imageView" destination="jT0-Qc-a22" id="wuI-s2-cTh"/>
                                                                 <outlet property="textField" destination="uL1-W8-fs5" id="Uae-ud-nRO"/>
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="designer_icon" width="395.5" minWidth="200" maxWidth="1000" id="cC6-1U-vmx">
+                                                <tableColumn identifier="designer_asset" width="395.5" minWidth="200" maxWidth="1000" id="cC6-1U-vmx">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Designer Asset">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
