@@ -24,6 +24,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 		self.assetsStatusField.stringValue = ""
 		self.assetsTableView.delegate = self
 		self.assetsTableView.dataSource = self
+		self.assetsTableView.register(forDraggedTypes: [kUTTypeFileURL as String])
 	}
 	
 	override var representedObject: AnyObject? {
@@ -86,14 +87,103 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 	
 	
 	@IBAction func chooseDesignerURL(_ sender: AnyObject) {
+		var hasOnePair = false
+		
+		for assetPair in self.document.assetsList {
+			if assetPair.projectAsset != nil &&
+				assetPair.designerAsset != nil {
+				hasOnePair = true
+				break
+			}
+		}
+
+		// We give proper notice to the user about the upcoming behaviors.
+		if hasOnePair == false { // we tell the user we will parse and match.
+
+		} else { // we replace the root dir for the assets.
+			
+		}
+		
 		NSOpenPanel().beginSheet(self.view.window!, completionHandler: { (response: NSModalResponse) in
 			if response == NSFileHandlingPanelOKButton {
-				
+				if hasOnePair == false { // if we have nothing, parse and automatch.
+					
+				} else { // if we have something, even 1 image, simple change the root folder of the assets.
+					
+				}
 			}
 		})
 	}
 	
 	@IBAction func publish(_ sender: AnyObject) {
+		let fileManager = FileManager.default
+		
+		if self.document.projectDirectoryURL == nil {
+			NSLog("Error publishing, no project directory")
+		} else {
+			var isDirectory: ObjCBool = ObjCBool(false)
+
+			if fileManager.fileExists(atPath: self.document.projectDirectoryURL.path!, isDirectory: &isDirectory) {
+				if isDirectory.boolValue {
+					let overwriteAlert = NSAlert()
+					overwriteAlert.messageText = NSLocalizedString("You are about to publish your changes.", comment: "Overwrite Alert at Publish message")
+					overwriteAlert.informativeText = NSLocalizedString("This will overwrite all the files within your project. Are you sure you wish to proceed?", comment: "Overwrite Alert at Publish informative text")
+					overwriteAlert.addButton(withTitle: NSLocalizedString("OK", comment: "Overwrite Alert at Publish OK Button"))
+					overwriteAlert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Overwrite Alert at Publish cancel button"))
+
+					let returnValue = overwriteAlert.runModal()
+					
+					if returnValue == NSModalResponseCancel {
+						NSLog("User canceled publishing")
+						return
+					}
+					
+					for assetPair in self.document.assetsList {
+						if assetPair.designerAsset == nil {
+							continue;
+						}
+						
+						guard let projectAssetURL = assetPair.projectAsset.url, let designerAssetURL = assetPair.designerAsset.url else {
+							NSLog("Publishing Error: projectAssetURL or designerAssetURL nil")
+							continue;
+						}
+
+						
+						do {
+							try fileManager.removeItem(at: projectAssetURL)
+							
+							do {
+								try fileManager.copyItem(at: designerAssetURL, to: projectAssetURL)
+							} catch {
+								NSLog("Error copying new asset at \(projectAssetURL) to old asset at \(projectAssetURL)")
+								// TODO: Add a notification to user
+							}
+						} catch {
+							NSLog("Error removing old asset at \(projectAssetURL)")
+							// TODO: Add a notification to user
+						}
+					}
+				} else {
+					let overwriteAlert = NSAlert()
+					overwriteAlert.messageText = NSLocalizedString("Error Publishing", comment: "Invalid Directory Alert at Publish message")
+					overwriteAlert.informativeText = NSLocalizedString("Can't publish, root directory is not a folder, risk of errors", comment: "Invalid Directory Alert at Publish informative text")
+					overwriteAlert.addButton(withTitle: NSLocalizedString("OK", comment: "Invalid Directory Alert at Publish OK Button"))
+					
+					overwriteAlert.runModal()
+					NSLog("Can't publish, projectDirectory is not a directory")
+				}
+			}
+			DispatchQueue.main.async {
+				let notification = NSUserNotification()
+				notification.title = NSLocalizedString("Publish Finished", comment: "NSUserNotification title")
+				notification.informativeText = NSLocalizedString("Your new assets have been moved to their new location", comment: "NSUserNotification informativeText")
+				notification.soundName = NSUserNotificationDefaultSoundName
+				
+				NSUserNotificationCenter.default.deliver(notification)
+
+				self.assetsTableView.reloadData()
+			}
+		}
 	}
 	
 	
@@ -172,9 +262,12 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 			cellView.textField?.stringValue = assetFile!.fileName
 			cellView.assetPathField.stringValue = assetFile!.url.path.replacingOccurrences(of: NSHomeDirectory(), with: "~")
 			cellView.imageView?.image = assetFile!.image
+			cellView.assetSizeField.stringValue = String(format:"%.0fx%.0f", assetFile!.image.size.width, assetFile!.image.size.height)
 		} else {
-			cellView.textField?.stringValue = "N/A"
-			cellView.assetPathField.stringValue = "N/A"
+			cellView.textField?.stringValue = ""
+			cellView.assetPathField.stringValue = ""
+			cellView.assetSizeField.stringValue = ""
+			cellView.imageView?.image = nil
 		}
 		return cellView
 	}

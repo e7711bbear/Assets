@@ -12,7 +12,7 @@
 				<string>assets</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string></string>
+			<string>/Users/tipoli/Dropbox/Perso/B. Code/1.Apps/Assets/document_icon.png</string>
 			<key>CFBundleTypeName</key>
 			<string>DocumentType</string>
 			<key>CFBundleTypeOSTypes</key>
