@@ -10,8 +10,8 @@ import Cocoa
 
 class Document: NSDocument {
 
-	var projectDirectoryURL: NSURL!
-	var designerDirectoryURL: NSURL!
+	var projectDirectoryURL: URL!
+	var designerDirectoryURL: URL!
 	var assetsList = [AssetsPair]()
 	
 	override init() {

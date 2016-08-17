@@ -27,7 +27,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 		self.assetsTableView.register(forDraggedTypes: [kUTTypeFileURL as String])
 	}
 	
-	override var representedObject: AnyObject? {
+	override var representedObject: Any? {
 		didSet {
 			// Update the view, if already loaded.
 		}
@@ -123,7 +123,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 		} else {
 			var isDirectory: ObjCBool = ObjCBool(false)
 
-			if fileManager.fileExists(atPath: self.document.projectDirectoryURL.path!, isDirectory: &isDirectory) {
+			if fileManager.fileExists(atPath: self.document.projectDirectoryURL.path, isDirectory: &isDirectory) {
 				if isDirectory.boolValue {
 					let overwriteAlert = NSAlert()
 					overwriteAlert.messageText = NSLocalizedString("You are about to publish your changes.", comment: "Overwrite Alert at Publish message")
@@ -156,11 +156,11 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 								try fileManager.copyItem(at: designerAssetURL, to: projectAssetURL)
 							} catch {
 								NSLog("Error copying new asset at \(projectAssetURL) to old asset at \(projectAssetURL)")
-								// TODO: Add a notification to user
+								// FIXME: Add a notification to user
 							}
 						} catch {
 							NSLog("Error removing old asset at \(projectAssetURL)")
-							// TODO: Add a notification to user
+							// FIXME: Add a notification to user
 						}
 					}
 				} else {
@@ -190,7 +190,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 	func findAllAssets(inside startingPath: String) -> Void {
 		
 		let fileManager = FileManager.default
-		
+
 		do {
 			let content = try fileManager.contentsOfDirectory(atPath: startingPath)
 			
@@ -218,7 +218,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 					self.findAllAssets(inside: elementPath)
 				} else { // -- These are files, we need to add if valid assets.
 					let elementNSString = elementName as NSString
-					let UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, elementNSString.pathExtension, nil)?.takeRetainedValue()
+					let UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, elementNSString.pathExtension as CFString, nil)?.takeRetainedValue()
 					
 					guard UTI != nil else {
 						NSLog("Failed to create UTI for \(elementPath)")
