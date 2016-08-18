@@ -35,26 +35,22 @@ class Document: NSDocument {
 	}
 
 	override func data(ofType typeName: String) throws -> Data {
-		// Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
-		// You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-		//		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
-		
-		let rootObject: [String : Any] = ["projectDirectoryURL" : projectDirectoryURL,
-		                                  "designerDirectoryURL" : designerDirectoryURL,
-		                                  "assetsList" : assetsList]
-		
-		let data = NSArchiver.archivedData(withRootObject: rootObject)
+
+		var rootObject = [String : Any]()
+		if self.projectDirectoryURL != nil {
+			rootObject["projectDirectoryURL"] = projectDirectoryURL
+		}
+		if  self.designerDirectoryURL != nil {
+			rootObject["designerDirectoryURL"] = designerDirectoryURL
+		}
+		rootObject["assetsList"] = assetsList
+		let data = NSKeyedArchiver.archivedData(withRootObject: rootObject)
 		
 		return data
 	}
 
-	override func read(from data: Data, ofType typeName: String) throws {
-		// Insert code here to read your document from the given data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning false.
-		// You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
-		// If you override either of these, you should also override -isEntireFileLoaded to return false if the contents are lazily loaded.
-//		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
-		
-		guard let unarchivedObject = NSUnarchiver.unarchiveObject(with: data) as! [String : Any]? else {
+	override func read(from data: Data, ofType typeName: String) throws {		
+		guard let unarchivedObject = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String : Any]? else {
 			NSLog("Error loading the unarchived Object")
 			return;
 		}
@@ -62,6 +58,7 @@ class Document: NSDocument {
 		self.projectDirectoryURL = unarchivedObject["projectDirectoryURL"] as? URL
 		self.designerDirectoryURL = unarchivedObject["designerDirectoryURL"] as? URL
 		self.assetsList = unarchivedObject["assetsList"] as! [AssetsPair]
+		
 	}
 
 	// MARK: - Data 

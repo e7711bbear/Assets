@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ImageFile: NSObject {
+class ImageFile: NSObject, NSCoding {
 	var fileName: String!
 	var url: URL! {
 		didSet {
@@ -16,8 +16,24 @@ class ImageFile: NSObject {
 			self.image = NSImage(contentsOf: self.url)
 		}
 	}
-	
-	
+
 	var image: NSImage!
 
+	override init() { // NS_DESIGNATED_INITIALIZER
+		
+	}
+	
+	required public init?(coder aDecoder: NSCoder) {
+		let url = aDecoder.decodeObject(forKey: "url")
+		if url != nil {
+			self.url = url as! URL
+		}
+	}
+	
+	public func encode(with aCoder: NSCoder) {
+		if self.url != nil {
+			aCoder.encode(self.url, forKey: "url")
+		}
+	}
+	
 }
