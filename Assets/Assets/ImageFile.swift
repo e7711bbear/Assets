@@ -12,7 +12,7 @@ class ImageFile: NSObject, NSCoding {
 	var fileName: String!
 	var url: URL! {
 		didSet {
-			self.fileName = url.lastPathComponent
+			self.fileName = self.url.lastPathComponent
 			self.image = NSImage(contentsOf: self.url)
 		}
 	}
@@ -27,6 +27,8 @@ class ImageFile: NSObject, NSCoding {
 		let url = aDecoder.decodeObject(forKey: "url")
 		if url != nil {
 			self.url = url as! URL
+			self.fileName = self.url.lastPathComponent
+			self.image = NSImage(contentsOf: self.url)
 		}
 	}
 	

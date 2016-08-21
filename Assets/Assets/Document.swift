@@ -50,6 +50,7 @@ class Document: NSDocument {
 	}
 
 	override func read(from data: Data, ofType typeName: String) throws {		
+		// TODO: run this on background thread, show a loading anim until done.
 		guard let unarchivedObject = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String : Any]? else {
 			NSLog("Error loading the unarchived Object")
 			return;

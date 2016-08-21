@@ -39,6 +39,18 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 		}
 	}
 	
+	override func viewWillAppear() {
+		if self.document != nil {
+			if self.document.projectDirectoryURL != nil {
+				self.projectURLField.stringValue = self.document.projectDirectoryURL.path.replacingOccurrences(of: NSHomeDirectory(), with: "~")
+			}
+			if self.document.designerDirectoryURL != nil {
+				self.designerURLField.stringValue = self.document.designerDirectoryURL.path.replacingOccurrences(of: NSHomeDirectory(), with: "~")
+			}
+		self.assetsTableView.reloadData()
+		}
+	}
+	
 	@IBAction func chooseProjectURL(_ sender: AnyObject) {
 		let openPanel = NSOpenPanel()
 		
@@ -104,7 +116,15 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 			
 		}
 		
-		NSOpenPanel().beginSheet(self.view.window!, completionHandler: { (response: NSModalResponse) in
+		let openPanel = NSOpenPanel()
+		
+		openPanel.canChooseDirectories = true
+		openPanel.canChooseFiles = false
+		openPanel.allowsMultipleSelection = false
+		openPanel.title = NSLocalizedString("Choose Project URL", comment: "Open Panel title")
+		openPanel.message = NSLocalizedString("Please select the root folder of your project", comment: "Open Panel Message")
+		
+		openPanel.beginSheetModal(for: self.view.window!, completionHandler: { [unowned self] (response: NSModalResponse) in
 			if response == NSFileHandlingPanelOKButton {
 				if hasOnePair == false { // if we have nothing, parse and automatch.
 					

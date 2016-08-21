@@ -9,18 +9,24 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>assets</string>
+				<string>assetsproject</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>/Users/tipoli/Dropbox/Perso/B. Code/1.Apps/Assets/document_icon.png</string>
+			<string>document_icon_512@2x</string>
 			<key>CFBundleTypeName</key>
-			<string>DocumentType</string>
+			<string>Assets Project</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>????</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.arnaudthiercelin.AssetsProject</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<integer>1</integer>
 			<key>NSDocumentClass</key>
 			<string>$(PRODUCT_MODULE_NAME).Document</string>
 		</dict>
@@ -51,5 +57,49 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Assets Project</string>
+			<key>UTTypeIconFile</key>
+			<string>document_icon_512@2x</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.arnaudthiercelin.AssetsProject</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>assetsproject</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Assets Project</string>
+			<key>UTTypeIconFile</key>
+			<string>document_icon_512@2x</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.arnaudthiercelin.AssetsProject</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>assetsproject</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
