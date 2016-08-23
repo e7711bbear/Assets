@@ -109,11 +109,30 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 			}
 		}
 
+		let alert = NSAlert()
+
 		// We give proper notice to the user about the upcoming behaviors.
 		if hasOnePair == false { // we tell the user we will parse and match.
+			alert.messageText = NSLocalizedString("You have at least one matching pair of assets", comment: "Choose designer folder Alert Message")
+			alert.informativeText = NSLocalizedString("Choosing a designer directory in this state will rebase your current designer assets. Do you wish to proceed?", comment: "Choose designer folder alert informative message")
+			alert.addButton(withTitle: NSLocalizedString("OK", comment: "Alert at Choose designer folder OK Button"))
+			alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Alert at choose designer folder cancel button"))
+			let returnValue = alert.runModal()
 
-		} else { // we replace the root dir for the assets.
+			if returnValue == NSModalResponseCancel {
+				return
+			}
 			
+		} else { // we replace the root dir for the assets.
+			alert.messageText = NSLocalizedString("You have no matching pair of assets", comment: "Choose designer folder Alert Message")
+			alert.informativeText = NSLocalizedString("Choosing a designer directory in this state will look for assets in the chosen folder and try to auto match. Do you wish to proceed?", comment: "Choose designer folder alert informative message")
+			alert.addButton(withTitle: NSLocalizedString("OK", comment: "Alert at Choose designer folder OK Button"))
+			alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Alert at choose designer folder cancel button"))
+			let returnValue = alert.runModal()
+			
+			if returnValue == NSModalResponseCancel {
+				return
+			}
 		}
 		
 		let openPanel = NSOpenPanel()
