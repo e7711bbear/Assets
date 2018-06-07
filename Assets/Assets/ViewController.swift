@@ -24,7 +24,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 		self.assetsStatusField.stringValue = ""
 		self.assetsTableView.delegate = self
 		self.assetsTableView.dataSource = self
-		self.assetsTableView.register(forDraggedTypes: [kUTTypeFileURL as String])
+		self.assetsTableView.registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: kUTTypeFileURL as String)])
+		// TODO: For 10.13 use below
+		//		self.assetsTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
 	}
 	
 	override var representedObject: Any? {
@@ -60,8 +62,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 		openPanel.title = NSLocalizedString("Choose Project URL", comment: "Open Panel title")
 		openPanel.message = NSLocalizedString("Please select the root folder of your project", comment: "Open Panel Message")
 		
-		openPanel.beginSheetModal(for: self.view.window!, completionHandler: { [unowned self] (response: NSModalResponse) in
-			if response == NSFileHandlingPanelOKButton {
+		openPanel.beginSheetModal(for: self.view.window!, completionHandler: { [unowned self] (response: NSApplication.ModalResponse) in
+			if response.rawValue == NSFileHandlingPanelOKButton {
 				guard let rootDirectory = openPanel.url else {
 					NSLog("Invalid root directory for project")
 					return
@@ -119,7 +121,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 			alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Alert at choose designer folder cancel button"))
 			let returnValue = alert.runModal()
 
-			if returnValue == NSModalResponseCancel {
+			if returnValue == NSApplication.ModalResponse.cancel {
 				return
 			}
 			
@@ -130,7 +132,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 			alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Alert at choose designer folder cancel button"))
 			let returnValue = alert.runModal()
 			
-			if returnValue == NSModalResponseCancel {
+			if returnValue == NSApplication.ModalResponse.cancel {
 				return
 			}
 		}
@@ -143,8 +145,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 		openPanel.title = NSLocalizedString("Choose Project URL", comment: "Open Panel title")
 		openPanel.message = NSLocalizedString("Please select the root folder of your project", comment: "Open Panel Message")
 		
-		openPanel.beginSheetModal(for: self.view.window!, completionHandler: { [unowned self] (response: NSModalResponse) in
-			if response == NSFileHandlingPanelOKButton {
+		openPanel.beginSheetModal(for: self.view.window!, completionHandler: { [unowned self] (response: NSApplication.ModalResponse) in
+			if response.rawValue == NSFileHandlingPanelOKButton {
 				if hasOnePair == false { // if we have nothing, parse and automatch.
 					
 				} else { // if we have something, even 1 image, simple change the root folder of the assets.
@@ -172,7 +174,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
 					let returnValue = overwriteAlert.runModal()
 					
-					if returnValue == NSModalResponseCancel {
+					if returnValue == NSApplication.ModalResponse.cancel {
 						NSLog("User canceled publishing")
 						return
 					}
@@ -292,10 +294,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 	}
 	
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-		let cellView = tableView.make(withIdentifier: "AssetCellView", owner: self) as! AssetCellView
+		let cellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "AssetCellView"), owner: self) as! AssetCellView
 		let assetPair = self.document.assetsList[row]
 		
-		let assetFile = tableColumn?.identifier == "project_asset" ? assetPair.projectAsset : assetPair.designerAsset
+		let assetFile = (tableColumn?.identifier)!.rawValue == "project_asset" ? assetPair.projectAsset : assetPair.designerAsset
 		
 		if assetFile != nil {
 			cellView.textField?.stringValue = assetFile!.fileName
@@ -317,9 +319,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 		return false
 	}
 	
-	func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+	func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
 		//get the file URLs from the pasteboard
-		let pasteBoard = info.draggingPasteboard()
+		let pasteBoard = info.draggingPasteboard
 		
 		//list the file type UTIs we want to accept
 		let acceptedTypes = [kUTTypeImage]
@@ -341,9 +343,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 	}
 	
 	
-	func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+	internal func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
 	//get the file URLs from the pasteboard
-		let pasteBoard = info.draggingPasteboard()
+		let pasteBoard = info.draggingPasteboard
 		
 		//list the file type UTIs we want to accept
 		let acceptedTypes = [kUTTypeImage]
